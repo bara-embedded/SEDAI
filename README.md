@@ -135,7 +135,7 @@ Ce projet est distribué sous licence MIT. Voir le fichier [LICENSE](LICENSE) po
 
 ## 👨‍💻 Auteur
 
-**YankeMall** - [GitHub](https://github.com/YankeMall)
+**bara ezechiel merveil** - [GitHub](https://github.com/YankeMall)
 *Créateur et développeur principal du système SEDAI.*
 
 ---
