@@ -141,4 +141,6 @@ Ce projet est distribué sous licence MIT. Voir le fichier [LICENSE](LICENSE) po
 ---
 
 *SEDAI - Rendre la technologie automobile accessible à tous.* 🚗🤖
->>>>>>> fc7923f (feat: initial release of SEDAI v1.0.0)
+## 🚀 État du Dépôt
+- **Dernier Push** : v1.0.0 (Release Initiale GitHub)
+- **Stabilité** : Stable (Version de Production)
