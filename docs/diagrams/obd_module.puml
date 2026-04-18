@@ -1,0 +1,47 @@
+@startuml
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityDiamondBackgroundColor white
+skinparam ActivityDiamondBorderColor black
+
+start
+:Démarrage du Thread OBDModule;
+while (event_stop is_set ?) is (Non)
+  
+  if (OBD Connecté ?) then (Non)
+    :Mettre statut shared_state à "déconnecté";
+    :Tenter la connexion d'interface série ELM327;
+    if (Connexion Réussie ?) then (Oui)
+      :Mettre connected à True;
+    else (Non)
+      :Mettre connected à False;
+      :Attendre 3s (sleep);
+      (continue)
+    endif
+  else (Oui)
+  endif
+
+  :Lire Données Temps Réel (read_live_data);
+  note right: Req. PIDs Critiques (RPM, Vitesse, Temp...)\nReq. PIDs Étendus (STFT, Misfires Mode 06)
+  
+  :Lire Codes Défauts (get_dtc);
+
+  :Verrouiller state_lock;
+  :Mettre data dans shared_state["obd_data"];
+  :Mettre DTC dans shared_state["dtcs"];
+  :Mettre statut à "connecté";
+  :Déverrouiller state_lock;
+
+  :Pause 1s (Synchronisation Fréquence d'acquisiton);
+
+endwhile (Oui : Signal Fin reçu)
+
+if (Connexion encore active ?) then (Oui)
+  :Fermer Connexion (connection.close);
+else (Non)
+endif
+
+:Arrêt du Thread OBDModule;
+stop
+@enduml

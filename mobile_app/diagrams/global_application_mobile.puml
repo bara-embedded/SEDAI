@@ -1,0 +1,53 @@
+@startuml
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityDiamondBackgroundColor white
+skinparam ActivityDiamondBorderColor black
+
+start
+:Lancement de l'Application sur le téléphone;
+
+if (Premier lancement de l'application ?) then (Oui)
+  :Afficher l'écran de Configuration (SetupScreen);
+  :Utilisateur saisit la marque, modèle et année du véhicule;
+  :Sauvegarde des préférences dans la mémoire du téléphone;
+else (Non)
+endif
+
+:Affichage de l'interface principale (HUD / Tableau de Bord);
+
+:Tentative de connexion au réseau WiFi du Raspberry Pi (SEDAI);
+
+if (Le Raspberry Pi est-il introuvable ?) then (Oui)
+  :Connexion échouée : "Hors Ligne";
+  :Affichage de l'indicateur d'erreur de connexion;
+else (Non)
+  :Connexion réussie : "En Ligne";
+  :Ouverture du flux de données continu (WebSocket);
+endif
+
+while (L'utilisateur utilise l'application) is (Oui)
+  
+  :Réception constante des données du véhicule;
+  :Animation et mise à jour des Jauges (Vitesse, RPM, Température);
+
+  if (Une alerte critique est-elle reçue du SEDAI ?) then (Oui)
+    :Afficher une Notification Visuelle d'Urgence (Rouge);
+    :L'utilisateur ouvre l'écran d'Analyse (AnalysisScreen);
+    :Affichage du rapport détaillé de l'Intelligence Artificielle\net recommandations de réparation;
+  else (Non)
+  endif
+
+  if (Action de l'utilisateur sur le menu ?) then (Clique sur Historique)
+    :Afficher la liste des anciennes pannes et trajets enregistrés;
+  elseif (Action de l'utilisateur sur le menu ?) then (Clique sur Paramètres)
+    :Permettre le réglage de l'apparence et de la connexion;
+  else (Aucune action)
+  endif
+
+endwhile (Non : Fermeture de l'App)
+
+:Clôture de la connexion réseau;
+stop
+@enduml

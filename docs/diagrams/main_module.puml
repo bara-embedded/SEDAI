@@ -1,0 +1,46 @@
+@startuml
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityDiamondBackgroundColor white
+skinparam ActivityDiamondBorderColor black
+
+start
+:Début d'exécution main.py;
+:Initialisation du Logging (setup_logging);
+:Gestion des Signaux Système (SIGINT, SIGTERM);
+
+:Démarrage Moteur IA Indépendant (Ollama);
+if (Échec IA (Modèle introuvable/Offline)?) then (Oui)
+  :Log ERREUR FATALE;
+  stop
+else (Non)
+endif
+
+:Création Pipeline et Locks (state_lock, shared_state);
+
+:Instanciation MemoryModule;
+:Instanciation TTSModule;
+:Instanciation VoiceModule;
+:Instanciation OBDModule;
+:Instanciation MonitorModule;
+:Instanciation DiagnosticModule;
+:Instanciation WebSocketModule;
+
+:Démarrage (start) de tous les Threads Modules;
+:Message d'accueil Synthèse Vocale (Initialisation terminée);
+
+while (event_stop is_set ?) is (Non)
+  :Boucle infinie Principale (sleep 1s);
+endwhile (Oui : Signal Fin reçu)
+
+:Initiation des process de fermeture;
+if (Serveur WebSocket actif ?) then (Oui)
+  :Arrêt du Serveur WebSocket;
+else (Non)
+endif
+
+:Join de tous les Threads;
+:Extinction complète;
+stop
+@enduml

@@ -1,0 +1,36 @@
+graph TD
+    A([Début]) --> B["Démarrage du boîtier SEDAI"]
+    B --> C["Chargement du moteur d'Intelligence Artificielle"]
+    C --> D["Tentative de connexion à la prise OBD-II"]
+    D --> E{"Connexion établie ?"}
+    
+    E -- Non --> F["Alerte vocale : Véhicule non détecté"]
+    F --> G([Fin])
+    
+    E -- Oui --> H["Alerte vocale : Système opérationnel"]
+    H --> I["Création du réseau local WiFi pour l'application"]
+    I --> J{"Le véhicule est en marche ?"}
+    
+    J -- Oui --> K["Lecture des capteurs du moteur en temps réel"]
+    K --> L["Vérification des erreurs systèmes et Pannes"]
+    L --> M{"Pannes détectées ?"}
+    
+    M -- Oui --> N["L'IA analyse le problème"]
+    N --> O["Alerte vocale de danger"]
+    O --> P["Transmission immédiate du danger à l'application mobile"]
+    P --> Q{"Commande vocale du conducteur ?"}
+    
+    M -- Non --> Q
+    
+    Q -- Oui --> R["L'IA interprète la requête vocale"]
+    R --> S["Déduction de la consigne et action"]
+    S --> T["Le système répond à haute voix"]
+    T --> U["Envoi des données en temps réel WebSocket"]
+    
+    Q -- Non --> U
+    
+    U --> J
+    
+    J -- Non --> V["Enregistrement du rapport final"]
+    V --> W["Extinction du système SEDAI"]
+    W --> X([Fin])

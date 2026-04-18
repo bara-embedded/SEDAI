@@ -1,0 +1,47 @@
+@startuml
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityDiamondBackgroundColor white
+skinparam ActivityDiamondBorderColor black
+
+start
+:Démarrage Application Flutter (void main);
+
+:WidgetsFlutterBinding.ensureInitialized();
+:Bloquer Origentation\n(Portrait & Paysage);
+:Configurer Interface Système\n(Barre statuts transparente, etc.);
+
+:Initialisation du Stockage Local\n(StorageService.init);
+
+:Lancement de l'App (runApp -> AutoJapanApp);
+
+:Vérification (StorageService.isFirstLaunch);
+
+if (Premier Lancement ?) then (Oui)
+  :Afficher SetupScreen\n(Configuration initiale);
+  :Utilisateur configure les paramètres;
+  :Sauvegarder configuration (StorageService);
+  :Rediriger vers MainScreen;
+else (Non)
+  :Afficher directement MainScreen;
+endif
+
+:Initialisation MainScreen;
+:Connexion au Backend (WebSocketService.connect);
+
+while (Application ouverte) is (Oui)
+  :Afficher Navigation (BottomNavigationBar);
+  if (Onglet sélectionné) then (Dashboard)
+    :Afficher DashboardScreen;
+    note right: Affiche les Jauges HUD et Données Live
+  elseif (Onglet sélectionné) then (Historique)
+    :Afficher HistoryScreen;
+  elseif (Onglet sélectionné) then (Paramètres)
+    :Afficher SettingsScreen;
+  endif
+endwhile (Non)
+
+stop
+
+@enduml
