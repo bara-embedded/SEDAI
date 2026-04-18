@@ -1,0 +1,49 @@
+@startuml
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityDiamondBackgroundColor white
+skinparam ActivityDiamondBorderColor black
+
+start
+:Démarrage du boîtier SEDAI;
+
+:Chargement du moteur d'Intelligence Artificielle (Gemma3 local);
+
+:Tentative de connexion à la prise OBD-II du véhicule;
+if (Connexion établie ?) then (Non)
+  :Alerte vocale : "Véhicule non détecté";
+  stop
+else (Oui)
+  :Alerte vocale : "Système opérationnel";
+endif
+
+:Création du réseau local (WiFi) pour l'application mobile;
+
+while (Le véhicule est en marche ?) is (Oui)
+  
+  :Lecture des capteurs du moteur en temps réel\n(Vitesse, Température, Carburant...);
+  :Vérification des erreurs systèmes (Codes Défauts / Pannes);
+
+  if (Une panne est-elle détectée ?) then (Oui)
+    :L'Intelligence Artificielle analyse le problème\n(Gravité, Causes, Solutions);
+    :Le système émet une alerte vocale de danger;
+    :Transmission immédiate du danger à l'application mobile;
+  else (Non)
+  endif
+
+  if (Le conducteur parle au système ?) then (Oui)
+    :L'Intelligence Artificielle interprète la requête vocale;
+    :Déduction de la consigne (Diagnostic, Météo du moteur...);
+    :Le système répond à haute voix au conducteur;
+  else (Non)
+  endif
+
+  :Envoi continu des données en temps réel vers l'application mobile;
+
+endwhile (Non)
+
+:Enregistrement du rapport final du trajet;
+:Extinction du système SEDAI;
+stop
+@enduml

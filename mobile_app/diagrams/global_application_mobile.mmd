@@ -1,0 +1,44 @@
+graph TD
+    A([Début]) --> B["Lancement de l'Application"]
+    B --> C{"Premier lancement ?"}
+    
+    C -- Oui --> D["Afficher l'écran de Configuration"]
+    D --> E["Saisie marque, modèle et année du véhicule"]
+    E --> F["Sauvegarde des préférences dans le téléphone"]
+    F --> G["Affichage du Tableau de Bord Principal"]
+    
+    C -- Non --> G
+    
+    G --> H["Tentative de connexion au réseau WiFi du SEDAI"]
+    H --> I{"Boîtier introuvable ?"}
+    
+    I -- Oui --> J["Statut : Connexion échouée"]
+    J --> K["Affichage de l'indicateur d'erreur"]
+    K --> L(["Reconnexion..."])
+    L -.-> H
+    
+    I -- Non --> M["Statut : En Ligne"]
+    M --> N["Ouverture du flux de données continu WebSocket"]
+    N --> O{"Application ouverte ?"}
+    
+    O -- Oui --> P["Réception constante des données"]
+    P --> Q["Mise à jour visuelle des Jauges HUD"]
+    Q --> R{"Alerte critique du SEDAI ?"}
+    
+    R -- Oui --> S["Notification Visuelle d'Urgence Rouge"]
+    S --> T["L'utilisateur ouvre l'écran d'Analyse"]
+    T --> U["Affichage du rapport IA détaillé et solutions"]
+    U --> V{"Navigation de l'utilisateur ?"}
+    
+    R -- Non --> V
+    
+    V -- Clique sur Historique --> W["Afficher la liste des anciennes pannes"]
+    W --> O
+    
+    V -- Clique sur Paramètres --> X["Permettre le réglage de l'apparence"]
+    X --> O
+    
+    V -- Reste sur Dashboard --> O
+    
+    O -- Non --> Y["Clôture de la connexion réseau"]
+    Y --> Z([Fin])

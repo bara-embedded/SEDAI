@@ -1,0 +1,9 @@
+# ----- Dépendances Principales SEDAI -----
+requests>=2.31.0       # Requêtes HTTP locales vers l'API Ollama
+obd>=0.7.1             # Communication série avec l'interface OBD-II ELM327
+pyserial>=3.5          # Dépendance requise pour garantir la fluidité série OBD
+vosk>=0.3.31           # Moteur de reconnaissance vocale Speech-to-Text (Hors ligne)
+websockets>=10.4       # Serveur socket temps réel pour l'application Flutter
+sounddevice>=0.4.6     # Capture du microphone USB pour la voix
+pyaudio>=0.2.14        # Compilé via portaudio19-dev pour les accès micro ALSA
+piper-tts>=1.2.0       # Synthèse vocale Text-to-Speech (Nécessite la lib espeak-ng)

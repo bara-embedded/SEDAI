@@ -1,0 +1,59 @@
+@startuml
+skinparam ArrowColor black
+skinparam ActivityBorderColor black
+skinparam ActivityBackgroundColor white
+skinparam ActivityDiamondBackgroundColor white
+skinparam ActivityDiamondBorderColor black
+
+start
+:Démarrage du Thread DiagnosticModule;
+
+while (event_stop is_set ?) is (Non)
+  :Attendre un événement dans action_queue;
+  
+  if (Type Action = "diagnostic_request" ?) then (Oui)
+    :Extraire obd_data, dtcs, vehicle_info depuis shared_state;
+    :Construire le Prompt (build_prompt);
+    note right: Assemble Contexte + Historique + Données OBD
+    :Exécuter Analyse IA locale (run_gemma_analysis);
+    :Ajouter échange à la Mémoire (add_exchange);
+    :Stocker rapport dans shared_state["dernier_rapport"];
+    :Lire réponse via Synthèse Vocale (tts_mod.speak);
+    
+  elseif (Type Action = "free_chat" ?) then (Oui)
+    :Extraire données depuis shared_state;
+    :Construire le Prompt conversationnel;
+    :Exécuter Analyse IA (run_gemma_analysis);
+    :Ajouter à l'Historique (add_exchange);
+    :Lire réponse (tts_mod.speak);
+    
+  elseif (Type Action = "get_dtcs" ?) then (Oui)
+    :Extraire DTCs de shared_state;
+    if (DTCs présents ?) then (Oui)
+      :Lire les DTCs (tts_mod.speak);
+    else (Non)
+      :Annoncer Aucun Défaut;
+    endif
+    
+  elseif (Type Action = "clear_dtcs" ?) then (Oui)
+    :Annonce de l'effacement des codes défauts;
+    
+  elseif (Type Action = "repeat_last" ?) then (Oui)
+    :Extraire "dernier_rapport" de shared_state;
+    if (Rapport existe ?) then (Oui)
+      :Répéter le rapport (tts_mod.speak);
+    else (Non)
+      :Annoncer aucune information répétable;
+    endif
+    
+  else (Action Inconnue ou Timeout)
+  endif
+
+  :Marquer Action comme terminée (task_done);
+
+endwhile (Oui : Signal Fin reçu)
+
+:Arrêt du Thread de diagnostic IA;
+stop
+
+@enduml
